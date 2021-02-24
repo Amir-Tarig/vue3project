@@ -1,6 +1,26 @@
 <template>
   <h1>{{ title }}</h1>
-  <Modal :header="header"></Modal>
+
+  <teleport to="#modals" v-if="showModal">
+    <Modal @close="toggleModal">
+      <template v-slot:links>
+        <a href="#">sign up now</a>
+        <a href="#">more info</a>
+      </template>
+      <h1>Using a Slot</h1>
+      <p>This is how i pass a some custom template in to my componenet</p>
+    </Modal>
+  </teleport>
+
+  <teleport to="#modals" v-if="showModalTwo">
+    <Modal @close="toggleModalTwo">
+      <h1>sign up to the newsletter</h1>
+      <p>For updates and promo codes</p>
+    </Modal>
+  </teleport>
+  <br>
+  <button @click.alt="toggleModal">Show Modal(alt)</button>
+  <button @click="toggleModalTwo">Open Modal</button>
 </template>
 
 <script>
@@ -14,7 +34,8 @@ export default {
   data() {
     return {
       title : 'My First Vue 3 Project',
-      header : "Sign up for the give away"
+      showModal: false,
+      showModalTwo: false
     }
   },
   methods: {
@@ -22,13 +43,19 @@ export default {
       console.log(this.$refs.name)
       this.$refs.name.classList.add('active')
       this.$refs.name.focus()
+    },
+    toggleModal() {
+      this.showModal = !this.showModal
+    },
+    toggleModalTwo() {
+      this.showModalTwo = !this.showModalTwo
     }
   }
 }
 </script>
 
 <style>
-#app {
+#app ,#modals{
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
